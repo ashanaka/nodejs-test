@@ -5,6 +5,6 @@ const router = express.Router();
 const product_controller = require('../controllers/product.controller');
 
 //test file to check commiunication
-router.get('./test', product_controller.test);
+router.get('/test', product_controller.test);
 
 module.exports = router;
