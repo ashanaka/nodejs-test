@@ -12,8 +12,30 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-    insertEmployee(req, res);
+    if (req.body._id != '') {
+        updateEmployee(req, res);
+    } else {
+        insertEmployee(req, res);
+    }
 })
+
+function updateEmployee(req, res){
+    Employee.findOneAndUpdate({_id: req.body._id}, req.body, {new: true}, (err, doc) => {
+        if(!err){
+            res.redirect('employee/list');
+        }else{
+            if (err.name == 'ValidationError') {
+                handleValidationError(err, req.body);
+                res.render("employee/addOrEdit", {
+                    formTitle: "Insert employee",
+                    employee: req.body
+                })
+            } else {
+                console.log("error of updating : " + err);
+            }
+        }
+    })
+}
 
 function insertEmployee(req, res) {
     let employee = new Employee();
@@ -38,14 +60,28 @@ function insertEmployee(req, res) {
     });
 }
 
+
+
 router.get('/list', (req, res) => {
     Employee.find((err, doc) => {
-        if(!err){
+        if (!err) {
             res.render("employee/list", {
-                list: doc 
+                list: doc
             });
-        }else{
+        } else {
             console.log("Error retrieving employee list : " + err);
+        }
+    });
+});
+
+//Update employee
+router.get('/:id', (req, res) => {
+    Employee.findById(req.params.id, (err, doc) => {
+        if (!err) {
+            res.render('employee/addOrEdit', {
+                formTitle: 'Update Employee',
+                employee: doc
+            })
         }
     });
 });
