@@ -1,0 +1,27 @@
+<h3> <a class="btn btn-secondary" href="/employee">Add New</a> Employee List</h3>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Mobile</th>
+            <th>City</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each list}}
+            <tr>
+                <td>{{this.fullName}}</td>
+                <td>{{this.email}}</td>
+                <td>{{this.mobile}}</td>
+                <td>{{this.city}}</td>
+                <td>
+                    <a href="/employee">Edit</a>
+                    <a href="#">Delete</a>
+                </td>
+            </tr>
+        {{/each}}
+    </tbody>
+</table>
