@@ -86,6 +86,21 @@ router.get('/:id', (req, res) => {
     });
 });
 
+//delete employee
+router.get('/delete/:id', (req, res) => {
+    Employee.findByIdAndRemove(req.params.id, (err, doc) => {
+        if(!err) {
+            res.redirect('/employee/list');
+        }else{
+            console.log('error deleting employee : ' + err);
+        }
+    })
+});
+
+function deleteEmployee(req, res){
+
+}
+
 function handleValidationError(err, body) {
     for (field in err.errors) {
         switch (err.errors[field].path) {
