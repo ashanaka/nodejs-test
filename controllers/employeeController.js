@@ -2,6 +2,7 @@ const express = require('express');
 let router = express.Router();
 const mongoose = require('mongoose');
 const Employee = mongoose.model('Employee');
+const User = mongoose.model('User');
 
 router.get('/', (req, res) => {
     res.render("employee/addOrEdit",
@@ -16,14 +17,15 @@ router.post('/', (req, res) => {
         updateEmployee(req, res);
     } else {
         insertEmployee(req, res);
+        insertUser(req, res);
     }
 })
 
-function updateEmployee(req, res){
-    Employee.findOneAndUpdate({_id: req.body._id}, req.body, {new: true}, (err, doc) => {
-        if(!err){
+function updateEmployee(req, res) {
+    Employee.findOneAndUpdate({ _id: req.body._id }, req.body, { new: true }, (err, doc) => {
+        if (!err) {
             res.redirect('employee/list');
-        }else{
+        } else {
             if (err.name == 'ValidationError') {
                 handleValidationError(err, req.body);
                 res.render("employee/addOrEdit", {
@@ -37,12 +39,27 @@ function updateEmployee(req, res){
     })
 }
 
+function insertUser(req, res) {
+    //Insert as a new user
+    let user = new User();
+    user.email = req.body.email;
+    user.password = req.body.password;
+    user.save((err, doc) => {
+        if (err) {
+            console.log('error of user registration : ' + err);
+        }
+        
+    });
+}
+
 function insertEmployee(req, res) {
+
     let employee = new Employee();
     employee.fullName = req.body.fullName;
     employee.email = req.body.email;
     employee.mobile = req.body.mobile;
     employee.city = req.body.city;
+    employee.password = req.body.password;
     employee.save((err, doc) => {
         if (!err) {
             res.redirect('employee/list');
@@ -89,17 +106,14 @@ router.get('/:id', (req, res) => {
 //delete employee
 router.get('/delete/:id', (req, res) => {
     Employee.findByIdAndRemove(req.params.id, (err, doc) => {
-        if(!err) {
+        if (!err) {
             res.redirect('/employee/list');
-        }else{
+        } else {
             console.log('error deleting employee : ' + err);
         }
     })
 });
 
-function deleteEmployee(req, res){
-
-}
 
 function handleValidationError(err, body) {
     for (field in err.errors) {

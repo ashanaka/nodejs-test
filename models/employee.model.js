@@ -13,6 +13,9 @@ let employeeSchema = new mongoose.Schema({
     },
     city: {
         type: String
+    },
+    password: {
+        type: String
     }
 });
 
