@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res) => {
     console.log(req.body.email);
-    User.findOne({email: req.body.email}).then(user => {
+    User.findOne({email: req.body.email, password: req.body.password}).then(user => {
         if(user){
             res.redirect('/employee/list');
             // console.log('user is available');
