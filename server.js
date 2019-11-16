@@ -3,6 +3,7 @@ require('./models/db');
 const express = require('express');
 
 const employeeController = require('./controllers/employeeController');
+const userController = require('./controllers/userController');
 
 const path = require('path');
 const exphbs = require('express-handlebars');
@@ -31,3 +32,5 @@ app.listen(3000, () => {
 
 
 app.use('/employee', employeeController);
+
+app.use('/login', userController);
