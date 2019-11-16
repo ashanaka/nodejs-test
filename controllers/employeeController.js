@@ -3,6 +3,7 @@ let router = express.Router();
 const mongoose = require('mongoose');
 const Employee = mongoose.model('Employee');
 const User = mongoose.model('User');
+const bcrypt = require('bcrypt');
 
 router.get('/', (req, res) => {
     res.render("employee/addOrEdit",
@@ -44,12 +45,18 @@ function insertUser(req, res) {
     let user = new User();
     user.email = req.body.email;
     user.password = req.body.password;
-    user.save((err, doc) => {
-        if (err) {
-            console.log('error of user registration : ' + err);
-        }
-        
+
+    bcrypt.hash(user.password, 10, function (err, hash) {
+        user.password = hash;
+
+        user.save((err, doc) => {
+            if (err) {
+                console.log('error of user registration : ' + err);
+            }
+
+        });
     });
+
 }
 
 function insertEmployee(req, res) {
