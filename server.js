@@ -1,4 +1,6 @@
 require('./models/db');
+const flash = require('connect-flash');
+const session = require('express-session');
 
 const express = require('express');
 
@@ -30,6 +32,21 @@ app.listen(3000, () => {
     console.log('Express server started at port : 3000');
 });
 
+//Express session middleware
+app.use(session({
+    secret: 'secret',
+    resave: true,
+    saveUninitialized: true
+}));
+
+app.use(flash());
+
+//Global Variables
+app.use(function(req, res, next){
+    res.locals.succMsg = req.flash('succMsg');
+    res.locals.errMsg = req.flash('errMsg');
+    next();
+});
 
 app.use('/employee', employeeController);
 

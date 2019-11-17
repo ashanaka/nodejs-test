@@ -15,17 +15,20 @@ router.post('/', (req, res) => {
 
     User.findOne({ email: req.body.email }).then(user => {
         if (user) {
+            //user is available
             bcrypt.compare(req.body.password, user.password, function (err, ress) {
                 if (ress) {
                     // Passwords match
+                    req.flash('succMsg', 'Logged in successfully!');
                     res.redirect('/employee/list');
                 } else {
                     // Passwords don't match
+                    req.flash('errMsg', 'Password doesn\'t match');
+                    res.redirect('/login');
                 }
             });
-
-            // console.log('user is available');
         } else {
+            req.flash('errMsg', 'User isn\'t exist!');
             res.redirect('/employee');
         }
     }).catch(err => {
