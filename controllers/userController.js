@@ -24,10 +24,13 @@ router.post('/', (req, res) => {
                 } else {
                     // Passwords don't match
                     req.flash('errMsg', 'Password doesn\'t match');
-                    res.redirect('/login');
+                    res.render('/login',{
+                        list: user
+                    });
                 }
             });
         } else {
+            //User is not available
             req.flash('errMsg', 'User isn\'t exist!');
             res.redirect('/employee');
         }
