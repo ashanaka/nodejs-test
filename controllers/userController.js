@@ -23,10 +23,10 @@ router.post('/', (req, res) => {
                     res.redirect('/employee/list');
                 } else {
                     // Passwords don't match
-                    req.flash('errMsg', 'Password doesn\'t match');
                     res.render('login/userLogin',{
                         list: req.body
                     });
+                    req.flash('errMsg', 'Password doesn\'t match');
                 }
             });
         } else {
