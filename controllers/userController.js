@@ -24,7 +24,9 @@ router.post('/', (req, res) => {
                 } else {
                     // Passwords don't match
                     req.flash('errMsg', 'Password doesn\'t match');
-                    res.redirect('/login');
+                    res.render('login/userLogin',{
+                        list: req.body
+                    });
                 }
             });
         } else {
