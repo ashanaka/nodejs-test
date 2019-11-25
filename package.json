@@ -19,13 +19,16 @@
   "dependencies": {
     "alert-node": "^2.0.3",
     "bcrypt": "^3.0.6",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "connect-flash": "^0.1.1",
     "express": "^4.16.4",
     "express-flash-messages": "^0.1.1",
     "express-handlebars": "^3.0.0",
     "express-session": "^1.17.0",
-    "mongoose": "^5.3.4"
+    "mongoose": "^5.3.4",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0"
   },
   "devDependencies": {},
   "description": ""
