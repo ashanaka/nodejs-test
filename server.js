@@ -1,6 +1,10 @@
 require('./models/db');
 const flash = require('connect-flash');
 const session = require('express-session');
+const passport = require('passport');
+
+require('./config/passport')(passport);
+
 
 const express = require('express');
 
@@ -40,6 +44,10 @@ app.use(session({
 }));
 
 app.use(flash());
+
+//passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
 
 //Global Variables
 app.use(function(req, res, next){

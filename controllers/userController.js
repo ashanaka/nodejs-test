@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 require('../models/user.model');
 const bcrypt = require('bcrypt');
+const passport = require('passport');
 
 
 const User = mongoose.model('User');
@@ -11,33 +12,42 @@ router.get('/', (req, res) => {
     res.render('login/userLogin');
 });
 
-router.post('/', (req, res) => {
+// Login Form POST
+router.post('/', (req, res, next) => {
+    passport.authenticate('local', {
+      successRedirect:'/employee/list',
+      failureRedirect: '/login',
+      failureFlash: true
+    })(req, res, next);
+  });
 
-    User.findOne({ email: req.body.email }).then(user => {
-        if (user) {
-            //user is available
-            bcrypt.compare(req.body.password, user.password, function (err, ress) {
-                if (ress) {
-                    // Passwords match
-                    req.flash('succMsg', 'Logged in successfully!');
-                    res.redirect('/employee/list');
-                } else {
-                    // Passwords don't match
-                    res.render('login/userLogin',{
-                        list: req.body
-                    });
-                    req.flash('errMsg', 'Password doesn\'t match');
-                }
-            });
-        } else {
-            //User is not available
-            req.flash('errMsg', 'User isn\'t exist!');
-            res.redirect('/employee');
-        }
-    }).catch(err => {
-        console.log(err);
-        return;
-    });
-});
+// router.post('/', (req, res) => {
+
+//     User.findOne({ email: req.body.email }).then(user => {
+//         if (user) {
+//             //user is available
+//             bcrypt.compare(req.body.password, user.password, function (err, ress) {
+//                 if (ress) {
+//                     // Passwords match
+//                     req.flash('succMsg', 'Logged in successfully!');
+//                     res.redirect('/employee/list');
+//                 } else {
+//                     // Passwords don't match
+//                     res.render('login/userLogin',{
+//                         list: req.body
+//                     });
+//                     req.flash('errMsg', 'Password doesn\'t match');
+//                 }
+//             });
+//         } else {
+//             //User is not available
+//             req.flash('errMsg', 'User isn\'t exist!');
+//             res.redirect('/employee');
+//         }
+//     }).catch(err => {
+//         console.log(err);
+//         return;
+//     });
+// });
 
 module.exports = router;
