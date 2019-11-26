@@ -9,13 +9,7 @@ const User = mongoose.model('User');
 let router = express.Router();
 
 router.get('/', (req, res) => {
-  var pageParameters = {};
-  var flash = req.flash('message');
-  console.log(flash);
-  if (flash != null && flash != '') {
-    pageParameters.message = flash;
-  }
-  res.render('login/userLogin', pageParameters);
+  res.render('login/userLogin');
 });
 
 // Login Form POST
