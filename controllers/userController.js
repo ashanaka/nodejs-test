@@ -9,17 +9,23 @@ const User = mongoose.model('User');
 let router = express.Router();
 
 router.get('/', (req, res) => {
-    res.render('login/userLogin');
+  var pageParameters = {};
+  var flash = req.flash('message');
+  console.log(flash);
+  if (flash != null && flash != '') {
+    pageParameters.message = flash;
+  }
+  res.render('login/userLogin', pageParameters);
 });
 
 // Login Form POST
 router.post('/', (req, res, next) => {
-    passport.authenticate('local', {
-      successRedirect:'/employee/list',
-      failureRedirect: '/login',
-      failureFlash: true
-    })(req, res, next);
-  });
+  passport.authenticate('local', {
+    successRedirect: '/employee/list',
+    failureRedirect: '/login',
+    failureFlash: true
+  })(req, res, next);
+});
 
 // router.post('/', (req, res) => {
 
