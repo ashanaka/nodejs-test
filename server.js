@@ -22,6 +22,9 @@ app.use(bodyparser.urlencoded({
 }));
 app.use(bodyparser.json());
 
+app.get('"', function(req,res){
+    res.locals.user = req.user || null
+});
 
 //handlebars configuration
 app.set('views', path.join(__dirname, '/views/'));

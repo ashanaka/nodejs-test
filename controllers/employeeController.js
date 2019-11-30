@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const Employee = mongoose.model('Employee');
 const User = mongoose.model('User');
 const bcrypt = require('bcrypt');
+const passport = require('passport');
 
 router.get('/', (req, res) => {
     res.render("employee/addOrEdit",
@@ -90,7 +91,8 @@ router.get('/list', (req, res) => {
     Employee.find((err, doc) => {
         if (!err) {
             res.render("employee/list", {
-                list: doc
+                list: doc,
+                user: req.user
             });
         } else {
             console.log("Error retrieving employee list : " + err);
