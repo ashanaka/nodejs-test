@@ -1,4 +1,7 @@
-<h3> <a class="btn btn-secondary" href="/employee">Add New</a> Employee List</h3>
+<h3> <a class="btn btn-secondary" href="/employee">Add New</a> <a class="btn btn-primary" href="/login"> login</a> Employee List</h3>
+{{#if user}}
+<h5>{{user.email}}</h2>
+{{/if}}
 
 <table class="table table-striped">
     <thead>
