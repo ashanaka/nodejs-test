@@ -9,8 +9,8 @@ const User = mongoose.model('User');
 let router = express.Router();
 
 router.get('/', (req, res) => {
-  console.log(res.locals.User);
-  if(res.locals.User){
+  console.log(res.locals.user);
+  if(res.locals.user){
     res.redirect('/employee/list');
   }else{
     res.render('login/userLogin');

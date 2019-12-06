@@ -7,19 +7,20 @@ const User = mongoose.model('User');
 
 module.exports = function(passport){
   passport.use(new LocalStrategy({usernameField: 'email'}, (email, password, done) => {
+    // console.log(email);
     // Match user
     User.findOne({
       email:email
-    }).then(User => {
-      if(!User){
+    }).then(user => {
+      if(!user){
         return done(null, false, {message: 'No User Found'});
       } 
 
       // Match password
-      bcrypt.compare(password, User.password, (err, isMatch) => {
+      bcrypt.compare(password, user.password, (err, isMatch) => {
         if(err) throw err;
         if(isMatch){
-          return done(null, User);
+          return done(null, user);
         } else {
           return done(null, false, {message: 'Password Incorrect'});
         }
@@ -27,13 +28,13 @@ module.exports = function(passport){
     })
   }));
 
-  passport.serializeUser(function(User, done) {
-    done(null, User.id);
+  passport.serializeUser(function(user, done) {
+    done(null, user.id);
   });
   
   passport.deserializeUser(function(id, done) {
-    User.findById(id, function(err, User) {
-      done(err, User);
+    User.findById(id, function(err, user) {
+      done(err, user);
     });
   });
 }
