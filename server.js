@@ -56,6 +56,7 @@ app.use(passport.session());
 app.use(function(req, res, next){
     res.locals.succMsg = req.flash('succMsg');
     res.locals.errMsg = req.flash('errMsg');
+    res.locals.user = req.user || null;
     next();
 });
 
