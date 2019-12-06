@@ -42,8 +42,8 @@ app.listen(3000, () => {
 //Express session middleware
 app.use(session({
     secret: 'secret',
-    resave: true,
-    saveUninitialized: true
+    resave: false,
+    saveUninitialized: false
 }));
 
 app.use(flash());
