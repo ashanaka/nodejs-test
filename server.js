@@ -57,6 +57,6 @@ app.use(function(req, res, next){
     next();
 });
 
+//routes
 app.use('/employee', employeeController);
-
 app.use('/login', userController);
